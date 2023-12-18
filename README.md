@@ -1,7 +1,5 @@
 # TurkishUniversityHoneypot
 
-# University News Portal
-
 This repository contains the code for a Flask-based web application that provides a platform for university news. The application uses MySQL as the database backend.
 
 ## Getting Started
