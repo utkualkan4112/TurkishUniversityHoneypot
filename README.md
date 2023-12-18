@@ -26,14 +26,14 @@ git clone https://github.com/yourusername/university-news-portal.git
 cd university-news-portal
 ```
 
-####2. Install Python Dependencies
+#### 2. Install Python Dependencies
 
 Install the required Python packages:
 
 ```bash
 pip install -r requirements.txt
 ```
-####3. MySQL Setup
+#### 3. MySQL Setup
 
 Start MySQL Service for MacOs
 
@@ -56,7 +56,7 @@ GRANT ALL PRIVILEGES ON News.* TO 'your_username'@'localhost';
 FLUSH PRIVILEGES;
 ```
 
-####4. Configure Flask App
+#### 4. Configure Flask App
 
 Update SQLALCHEMY_DATABASE_URI in your Flask application:
 
@@ -64,7 +64,7 @@ Update SQLALCHEMY_DATABASE_URI in your Flask application:
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://your_username:your_password@localhost/News'
 ```
 
-####5. Initialize Database
+#### 5. Initialize Database
 
 ```bash
 flask db init
@@ -72,7 +72,7 @@ flask db migrate
 flask db upgrade
 ```
 
-####Running the Application
+#### Running the Application
 Run the Flask application:
 
 ```bash
