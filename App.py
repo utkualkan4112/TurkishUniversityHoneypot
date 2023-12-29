@@ -301,7 +301,7 @@ def get_cookie():
     return f"Sensitive Data from Cookie: {sensitive_data}"
 
 # MySQL configurations
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/News'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/newss'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
