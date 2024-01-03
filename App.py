@@ -265,7 +265,7 @@ def search():
                 filtered_news.append(entry)
 
         # Vulnerable SQL query
-        raw_sql = text(f"SELECT * FROM user WHERE username LIKE '%{query}%'")
+        raw_sql = text(f"SELECT * FROM user WHERE username LIKE '{query}'")
         result = db.session.execute(raw_sql)
         filtered_users = [dict(row._asdict()) for row in result]
 
