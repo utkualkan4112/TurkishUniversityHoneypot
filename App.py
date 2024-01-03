@@ -265,9 +265,12 @@ def search():
                 filtered_news.append(entry)
 
         # Vulnerable SQL query
-        raw_sql = text(f"SELECT * FROM user WHERE username LIKE '{query}'")
+        raw_sql = text(f"SELECT * FROM \"user\" WHERE username LIKE '%{query}%'")
+        print(f"q: [{raw_sql}]")
         result = db.session.execute(raw_sql)
         filtered_users = [dict(row._asdict()) for row in result]
+    else:
+        print("Empty query!!!")
 
     return render_template('search_results.html', news=filtered_news, users=filtered_users, query=query)
 
@@ -301,7 +304,7 @@ def get_cookie():
     return f"Sensitive Data from Cookie: {sensitive_data}"
 
 # MySQL configurations
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/newss'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:123@localhost/newss'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
