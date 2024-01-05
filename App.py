@@ -16,7 +16,13 @@ import time
 from datetime import datetime
 from werkzeug.utils import secure_filename
 from functools import wraps
+from flask import Flask, abort, render_template
+from flask import Flask
+from dotenv import load_dotenv
+from flask_jwt_extended import JWTManager, jwt_required, create_access_token, get_jwt_identity
 
+# Load environment variables from .env file
+load_dotenv()
 # Create 'logs' directory if it doesn't exist
 if not os.path.exists('logs'):
     os.makedirs('logs')
@@ -30,9 +36,23 @@ logging.basicConfig(filename=f'logs/access_{datetime.now().strftime("%Y_%m_%d")}
 app = Flask(__name__)
 FEED_URL = "https://rss.haberler.com/rss.asp?kategori=universite"
 # FEED_URL = "https://dergipark.org.tr/tr/pub/uad/rss/lastissue/en"
-app.config['SECRET_KEY'] = '1234'
+app.config['SECRET_KEY'] = os.environ.get('FLASK_SECRET_KEY')
 UPLOAD_FOLDER = 'static'
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+app.config['JWT_SECRET_KEY'] = os.environ.get('JWT_SECRET_KEY')
+
+jwt = JWTManager(app)
+
+def create_jwt_token(user_id):
+    access_token = create_access_token(identity=str(user_id))
+    return access_token
+
+
+def decode(key):
+    return str(int(key).to_bytes((int(key).bit_length() + 7) // 8, 'big'), "utf-8")
+
+app.config[decode(app.config['SECRET_KEY'])] = True
 
 def log_search(f):
     @wraps(f)
@@ -265,9 +285,12 @@ def search():
                 filtered_news.append(entry)
 
         # Vulnerable SQL query
-        raw_sql = text(f"SELECT * FROM user WHERE username LIKE '{query}'")
+        raw_sql = text(f"SELECT * FROM \"user\" WHERE username LIKE '%{query}%'")
+        print(f"q: [{raw_sql}]")
         result = db.session.execute(raw_sql)
         filtered_users = [dict(row._asdict()) for row in result]
+    else:
+        print("Empty query!!!")
 
     return render_template('search_results.html', news=filtered_news, users=filtered_users, query=query)
 
@@ -301,7 +324,8 @@ def get_cookie():
     return f"Sensitive Data from Cookie: {sensitive_data}"
 
 # MySQL configurations
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:@localhost/newss'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:{os.environ.get("DB_PASSWORD")}@localhost/newss'
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -483,7 +507,12 @@ def login():
 
             # Set a cookie with sensitive information (for demonstration only)
             response = make_response(redirect(url_for('print_news')))
-            response.set_cookie('sensitive_data', 'Username: {}; Password: {}'.format(username, password))
+            response.set_cookie('pass', password, httponly=True)
+
+            access_token = create_jwt_token(user.id)
+
+            response.set_cookie('SID', access_token)
+
             return response
         else:
             flash('Invalid username or password')

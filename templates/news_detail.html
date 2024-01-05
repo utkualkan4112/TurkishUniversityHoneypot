@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <title>News Detail</title>
     <style>
@@ -9,88 +10,108 @@
             padding: 0;
             background-color: #f4f4f4;
         }
+
         .container {
             width: 80%;
             margin: auto;
             overflow: hidden;
         }
-        .news-item, .comments-section, .comment-form {
+
+        .news-item,
+        .comments-section,
+        .comment-form {
             background: #fff;
             padding: 20px;
             margin-bottom: 20px;
             border-radius: 8px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
+
         .news-item img {
             max-width: 100%;
             height: auto;
             border-radius: 4px;
         }
+
         .comment {
             border-bottom: 1px solid #eee;
             padding: 10px;
             margin-bottom: 10px;
         }
+
         .comment:last-child {
             border-bottom: none;
         }
+
         .navbar {
-                width: 100%;
-                background-color: #333;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                padding: 10px 20px;
-            }
-            .search-container {
-                flex-grow: 1;
-                text-align: center;
-            }
-            .search-container input[type='text'] {
-                width: 60%;
-                padding: 10px 20px;
-                border: 1px solid #ddd;
-                border-radius: 4px;
-                font-size: 18px;
-            }
-            .search-container input[type='submit'] {
-                padding: 10px 20px;
-                background-color: #007bff;
-                color: white;
-                border: none;
-                border-radius: 4px;
-                cursor: pointer;
-                font-size: 18px;
-            }
-            .search-container input[type='submit']:hover {
-                background-color: #0056b3;
-            }
-            .auth-links {
-                margin-right: 5%; /* Adjusting margin */
-            }
-            .auth-links a {
-                color: white;
-                text-decoration: none;
-                padding: 10px;
-                font-size: 18px;
-            }
-            .auth-links a:hover {
-                background-color: #ddd;
-                color: black;
-            }
-            .navbar .home-link {
+            width: 100%;
+            background-color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 20px;
+        }
+
+        .search-container {
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .search-container input[type='text'] {
+            width: 60%;
+            padding: 10px 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 18px;
+        }
+
+        .search-container input[type='submit'] {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .search-container input[type='submit']:hover {
+            background-color: #0056b3;
+        }
+
+        .auth-links {
+            margin-right: 5%;
+            /* Adjusting margin */
+        }
+
+        .auth-links a {
             color: white;
             text-decoration: none;
             padding: 10px;
             font-size: 18px;
-            margin-right: 20px; /* Add some space to the right of the link */
-            }
-            .navbar .home-link:hover {
-                background-color: #ddd;
-                color: black;
-            }
+        }
+
+        .auth-links a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .navbar .home-link {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            font-size: 18px;
+            margin-right: 20px;
+            /* Add some space to the right of the link */
+        }
+
+        .navbar .home-link:hover {
+            background-color: #ddd;
+            color: black;
+        }
     </style>
 </head>
+
 <body>
     <div class='navbar'>
         <a href="/" class="home-link">Home</a> <!-- Link to the home page -->
@@ -124,7 +145,9 @@
             <h2>Comments</h2>
             {% for comment in comments %}
             <div class='comment'>
-                <p><a href="{{ url_for('profile', username=comment.user.username) }}"><strong>{{ comment.user.username }}</strong></a>: {{ comment.content }}</p>
+                <!-- Use the safe filter to render the comment content as raw HTML -->
+                <p><a href="{{ url_for('profile', username=comment.user.username) }}"><strong>{{ comment.user.username
+                            }}</strong></a>: {{ comment.content|safe }}</p>
                 {% if current_user.is_authenticated and current_user.is_admin %}
                 <form action="{{ url_for('delete_comment', comment_id=comment.id) }}" method="post">
                     <button type="submit">Delete Comment</button>
@@ -132,6 +155,7 @@
                 {% endif %}
             </div>
             {% endfor %}
+                    
         </div>
 
         {% if current_user.is_authenticated %}
@@ -147,4 +171,5 @@
         {% endif %}
     </div>
 </body>
+
 </html>
