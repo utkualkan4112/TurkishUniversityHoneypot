@@ -154,10 +154,10 @@
             <form action="/profile/{{ user.username }}" method="post" enctype="multipart/form-data">
                 <label for="profile_image">Profile Image:</label>
                 <input type="file" name="profile_image" id="profile_image" accept="/*"><br>
-
                 <label for="about">About:</label>
                 <textarea name="about" id="about">{{ user.about }}</textarea><br>
-
+                <label for="xml_file">Profile Data (XML):</label>
+                <input type="file" name="xml_file" id="xml_file" accept=".xml">
                 <input type="submit" value="Update Profile">
             </form>
         </div>
