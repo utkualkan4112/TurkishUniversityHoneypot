@@ -324,7 +324,7 @@ def get_cookie():
     return f"Sensitive Data from Cookie: {sensitive_data}"
 
 # MySQL configurations
-app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:{os.environ.get("DB_PASSWORD")}@localhost/newss'
+app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:{os.environ.get("DB_PASSWORD")}@localhost/Newss'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
