@@ -246,7 +246,7 @@ def log_profile(f):
             log_details["json_data"] = request.get_json(silent=True)
 
             # Log the file content if an upload is part of the request
-            if 'file_field_name' in request.files:  # Replace 'file_field_name' with your actual file field's name
+            if 'file_field_name' in request.files: 
                 file = request.files['file_field_name']
                 if file:  # checking if file is not empty
                     # Read the content of the file
@@ -323,7 +323,7 @@ def get_cookie():
     sensitive_data = request.cookies.get('sensitive_data', 'Not Set')
     return f"Sensitive Data from Cookie: {sensitive_data}"
 
-# MySQL configurations
+# PostgreSql configurations
 app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://postgres:{os.environ.get("DB_PASSWORD")}@localhost/Newss'
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -354,7 +354,7 @@ class Comment(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     content = db.Column(db.Text, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id', ondelete= "SET NULL"))
-    article_title = db.Column(db.String(200))  # You may adjust the size as needed
+    article_title = db.Column(db.String(200))  
     user = db.relationship('User')  # Add a relationship to the User model
 
 login_manager = LoginManager()
@@ -529,7 +529,7 @@ def logout():
 @log_comment
 def comment():
     content = request.form['content']
-    article_title = request.form['article_title']  # Ensure this is passed correctly
+    article_title = request.form['article_title'] 
 
     new_comment = Comment(content=content, user_id=current_user.id, article_title=article_title)
     db.session.add(new_comment)
